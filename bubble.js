@@ -1,11 +1,11 @@
-const field = document.getElementById("field");
+const numLength = 500;
+const awaitTime = 5;
 const ground = document.getElementById("ground");
-const numLength = 100;
-const awaitTime = 10;
 
+// create an array with numLength.
 const nums = [...Array(numLength).keys()].map(n => n + 1);
 
-// shuffle
+// shuffle numbers in an array.
 for (let i = nums.length - 1; i > 0; i--){
   const j = Math.floor(Math.random() * (i + 1));
   const tmp = nums[i];
@@ -13,7 +13,7 @@ for (let i = nums.length - 1; i > 0; i--){
   nums[j] = tmp;
 }
 
-// draw on DOM
+// draw on DOM.
 const drawNums = () => {
   while (ground.firstChild) {
     ground.removeChild(ground.firstChild);
@@ -26,7 +26,8 @@ const drawNums = () => {
   })
 }
 
-function await1sec(n) {
+// await a lapse of awaitTime seconds.
+function awaitSec() {
   return new Promise(resolve => {
     drawNums(nums);
     setTimeout(() => {
@@ -35,25 +36,20 @@ function await1sec(n) {
   })
 }
 
+// implement bubble sort.
 async function bubbleSort() {
   const arrLength = nums.length;
-  let maxNum = nums[0];
-  let maxNumIndex = 0;
+  let temp;
 
-  for (let i = 0; i < arrLength; i++) {
-    for (let j = 0; j < nums.length - 1 - i; j++) {
-      if (maxNum < nums[j + 1]) {
-        maxNum = nums[j + 1];
-        maxNumIndex = j + 1;
+  for (let i = 0; i < arrLength - 1; i++) {
+    for (let j = 0; j < arrLength - 1; j++) {
+      if (nums[j] > nums[j + 1]) {
+        temp = nums[j];
+        nums[j] = nums[j + 1];
+        nums[j + 1] = temp;
       }
     }
-    nums.splice(arrLength - i, 0, maxNum);
-    nums.splice(maxNumIndex, 1);
-
-    await await1sec(i);
-    
-    maxNum = nums[0];
-    maxNumIndex = 0;
+    await awaitSec();
   }
 }
 
